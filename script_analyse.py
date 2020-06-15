@@ -32,6 +32,14 @@ if __name__ == "__main__":
     time_per_step2 = 1  # 1min per step
     number_of_steps2 = data2.shape[0]
 
+    # Register
+    t1=200
+    t2=300
+    tstart=240
+    tend=340
+    correlations=ts.register(signal[tstart:tend,0],np.array(data2.iloc[:,4]),t1,t2)
+    tshift=np.argmax(correlations)
+
     # Figure, without registration
     time2=np.linspace(0,time_per_step2*(number_of_steps2-1),number_of_steps2)
 
@@ -44,13 +52,13 @@ if __name__ == "__main__":
     plt.plot(time2,np.array(data2.iloc[:,4]))
     plt.legend(data.keys()[columns].append(pd.Index(['Voltcraft'])))
 
-    # Register
-    t1=200
-    t2=300
-    tstart=240
-    tend=340
-    correlations=ts.register(signal[tstart:tend,0],np.array(data2.iloc[:,4]),t1,t2)
-    tshift=np.argmax(correlations)
+    rect=plt.Rectangle((tstart,0),tend-tstart,np.array(data2.iloc[:,4]).max(),facecolor=[0.5,0.8,0.9])
+    plt.gca().add_patch(rect)
+
+    plt.figure()
+    plt.plot(np.arange(t1,t2)-tstart,correlations)
+    plt.xlabel('Temporal shift')
+    plt.ylabel('Correlation')
 
     # Figure, after registration
     time1=t1+tshift+np.arange(0,len(signal))-tstart
