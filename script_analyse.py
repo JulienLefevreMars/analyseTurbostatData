@@ -8,7 +8,7 @@ import time_information as ti
 
 if __name__ == "__main__":
     # You need to run first turbostat, e.g. with
-    # sudo turbostat --interval 10 --quiet -out ThirdTest.out
+    # sudo turbostat --interval 60 --quiet -out Test.out
     NB_LINES_HEADER=68
 
     # Then read the Data
@@ -58,6 +58,13 @@ if __name__ == "__main__":
     plt.xlabel('Time (min)')
     plt.plot(steps2,np.array(data2.iloc[:,4]))
     plt.legend(data.keys()[columns].append(pd.Index(['Voltcraft'])))
+    xticklabels=plt.gca().get_xticks()
 
+    labels=[]
+    for i,x in enumerate(xticklabels):
+        time_x=datetime.fromtimestamp(plt.gca().get_xticks()[i] * 60)
+        labels.append(str(time_x.hour)+'H'+str(time_x.minute))
+
+    plt.gca().set_xticklabels(labels)
 
 
