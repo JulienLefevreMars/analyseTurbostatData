@@ -1,0 +1,34 @@
+[
+  {
+    "time": 1591363228130,
+    "activity": "pause"
+  },
+  {
+    "time": 1591363239696,
+    "activity": "limited"
+  },
+  {
+    "time": 1591363255590,
+    "activity": "excel"
+  },
+  {
+    "time": 1591365212927,
+    "activity": "devel"
+  },
+  {
+    "time": 1591365677811,
+    "activity": "excel"
+  },
+  {
+    "time": 1591366487415,
+    "activity": "email"
+  },
+  {
+    "time": 1591366687359,
+    "activity": "latex"
+  },
+  {
+    "time": 1591367223979,
+    "activity": "reading"
+  }
+]
