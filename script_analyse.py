@@ -3,39 +3,26 @@ import matplotlib.pyplot as plt
 import numpy as np
 import Utils.temporal_series as ts
 from os import stat
-from os import listdir
 from datetime import datetime
 import Utils.time_information as ti
+from Utils.data_extraction import get_filenames
 import sys
-
-def get_filenames(folder):
-    files = listdir(folder)
-    filename1 = ''
-    filename2 = ''
-    for file in files:
-        if file[-3:] == 'out':
-            filename1 = folder+file
-        if file[-3:] == 'csv':
-            filename2 = folder+file
-    return filename1, filename2
 
 
 if __name__ == "__main__":
-    # You need to run first turbostat, e.g. with
-    # sudo turbostat --interval 60 --quiet -out Test.out
     NB_LINES_HEADER=68
-
-    #-------------------------#
-    # Read the turbostat Data #
-    #-------------------------#
 
     try:
         folder=sys.argv[1]
     except:
-        #folder = '/home/julienlefevre/ownCloud/Documents/EcoInfo/Projects/Ecodiag/Voltcraft/2020_06_16/1/'
-        folder = 'Data/'
+        folder = '/home/julienlefevre/ownCloud/Documents/EcoInfo/Projects/Ecodiag/Voltcraft/2020_06_16/1/'
+        #folder = 'Data/'
 
     (filename1,filename2)=get_filenames(folder)
+
+    #-------------------------#
+    # Read the turbostat Data #
+    #-------------------------#
 
     data = pd.read_csv(filename1, sep=None, skiprows=range(0, NB_LINES_HEADER))
     #data = pd.read_csv(filename1, delimiter=',') # skip the header (Sophie)

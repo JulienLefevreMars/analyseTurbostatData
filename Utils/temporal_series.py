@@ -49,3 +49,13 @@ def register(signal1,signal2,t1=None,t2=None,similarity=np.corrcoef):
         correlations[i]=C[0,1]
 
     return correlations
+
+def detect_battery_off(signal,threshold=0.5):
+    """
+
+    :param signal:
+    :param threshold:
+    :return:
+    """
+    indices=np.where(signal<=threshold)
+    return indices[0]
