@@ -17,6 +17,7 @@ if __name__ == "__main__":
     except:
         folder = '/home/julienlefevre/ownCloud/Documents/EcoInfo/Projects/Ecodiag/Voltcraft/2020_06_16/1/'
         #folder = 'Data/'
+        folder = '/home/julienlefevre/ownCloud/Documents/EcoInfo/Projects/Ecodiag/Voltcraft/2020_06_19/2/'
 
     (filename1,filename2)=get_filenames(folder)
 
@@ -39,9 +40,12 @@ if __name__ == "__main__":
     for (i, column) in enumerate(columns):
         signal[:,i]=data.iloc[index_of_proc+(number_of_proc+1)*np.array([i for i in range(number_of_steps1)]),column]
 
-    #-------------------------#
-    # Read the Voltcraft info #
-    #-------------------------#
+    #--------------------------------------------#
+    # Read the Voltcraft info                    #
+    # See here                                   #
+    # http://llbteam.free.fr/el4000/el4000.php   #
+    # For a .BIN to .csv conversion              #
+    #--------------------------------------------#
 
     data2 = pd.read_csv(filename2, sep=None)
     time_per_step2 = 1  # 1min per step
@@ -49,6 +53,7 @@ if __name__ == "__main__":
     #time2 = stat(filename2).st_mtime # modification time (seconds) => WARNING: time of the .csv, not the .BIN file
     starttime = ti.str_to_timestamp(data2.iloc[0,0])
     time2 = starttime + number_of_steps2 *60
+    signal2 = np.array(data2.iloc[:,4])
 
     #--------------------------------------------#
     # Figure with Voltcraft and turbostat values #
@@ -63,7 +68,7 @@ if __name__ == "__main__":
     plt.grid()
     plt.ylabel('Watts')
     plt.xlabel('Time (min)')
-    plt.plot(steps2,np.array(data2.iloc[:,4]))
+    plt.plot(steps2,signal2)
     plt.legend(data.keys()[columns].append(pd.Index(['Voltcraft'])))
     xticklabels = plt.gca().get_xticks()
 
@@ -75,4 +80,37 @@ if __name__ == "__main__":
     plt.gca().set_xticklabels(labels)
     plt.show()
 
+
+    #-------------------------------------------#
+    # Read the power-meter information, if any  #
+    #-------------------------------------------#
+
+    data3 = pd.read_csv(folder + '/Power-meter/power_meter_log_19-06-2020_15-55-06.csv' ,sep=None )
+    time3 = data3.iloc[0::6,0]
+    index=9
+    signal3 = ts.averaging(np.array(data3.iloc[:,index]),6)
+
+    plt.figure()
+    plt.title('Turbostat information vs Power-meter')
+    plt.plot(steps1*60, signal[:,0])
+    plt.plot(steps2*60, signal2)
+    plt.plot(time3,signal3)
+    plt.grid()
+    plt.ylabel('Watts')
+    plt.xlabel('Time (min)')
+    plt.legend(['Turbostat','Voltcraft','Power-meter',])
+
+    xticklabels = plt.gca().get_xticks()
+
+    labels = []
+    for i, x in enumerate(xticklabels):
+        time_x = datetime.fromtimestamp(plt.gca().get_xticks()[i] )
+        labels.append(str(time_x.hour) + 'H' + str(time_x.minute))
+
+    plt.gca().set_xticklabels(labels)
+    plt.show()
+
+    plt.figure()
+    plt.subplot(1,2,1)
+    plt.plot()
 
