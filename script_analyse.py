@@ -6,6 +6,7 @@ from os import stat
 from datetime import datetime
 import Utils.time_information as ti
 from Utils.data_extraction import get_filenames
+from Utils.data_extraction import get_power_meter
 import sys
 
 
@@ -85,6 +86,7 @@ if __name__ == "__main__":
     # Read the power-meter information, if any  #
     #-------------------------------------------#
 
+    filename3 = get_power_meter(folder)
     data3 = pd.read_csv(folder + '/Power-meter/power_meter_log_19-06-2020_15-55-06.csv' ,sep=None )
     time3 = data3.iloc[0::6,0]
     index=9
