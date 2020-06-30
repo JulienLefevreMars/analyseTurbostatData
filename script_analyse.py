@@ -18,7 +18,7 @@ if __name__ == "__main__":
     except:
         folder = '/home/julienlefevre/ownCloud/Documents/EcoInfo/Projects/Ecodiag/Voltcraft/2020_06_16/1/'
         #folder = 'Data/'
-        folder = '/home/julienlefevre/ownCloud/Documents/EcoInfo/Projects/Ecodiag/Voltcraft/2020_06_19/2/'
+        folder = '/home/julienlefevre/ownCloud/Documents/EcoInfo/Projects/Ecodiag/Voltcraft/2020_06_24/'
 
     (filename1,filename2)=get_filenames(folder)
 
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     #-------------------------------------------#
 
     filename3 = get_power_meter(folder)
-    data3 = pd.read_csv(folder + '/Power-meter/power_meter_log_19-06-2020_15-55-06.csv' ,sep=None )
+    data3 = pd.read_csv(filename3 ,sep=None )
     time3 = data3.iloc[0::6,0]
     index=9
     signal3 = ts.averaging(np.array(data3.iloc[:,index]),6)

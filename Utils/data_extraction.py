@@ -31,7 +31,7 @@ def get_power_meter(folder,subdir='Power-meter/'):
     for file in files:
         try:
             if file[-3:] == 'csv' and file[:15] == 'power_meter_log':
-                filename = folder + file
+                filename = folder + subdir+ file
         except:
             filename = ''
     return filename
